@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+  <head>
+   <style type="text/css">
+     .turbolinks-progress-bar {
+  position: fixed;
+  display: block;
+  top: 0;
+  left: 0;
+  height: 3px;
+  background: #0076ff;
+  z-index: 9999;
+  transition: width 300ms ease-out, opacity 150ms 150ms ease-in;
+  transform: translate3d(0, 0, 0);
+}
+   </style>
+   <link rel="stylesheet" media="all" href="/assets/application-d12397cbc3a266ce5a99f7b588223090c55ca04a439953bb5f9304395de93fc3.css" data-turbolinks-track="reload">
+   <script src="/assets/application-114264dd93c8ff30e4335b71eed7949d66c4e7a8eb62e2de6284c046fe07104b.js" data-turbolinks-track="reload"></script>
+   <title>WebCampBackendNew</title>
+   <meta name="csrf-param" content="authenticity_token">
+   <meta name="csrf-token" content="5lLn3I74J3phlm3ltsLrc3DDvQCrHUB5owosyk99Uk88UgfTOYnyFRQGVcdLVc+QDvpu1tfrzDfOE8GAdRv0lg==">
+  </head>
+
+  <body>
+    <% if flash[:notice] %>
+    <div class="flash">
+      <%= flash[:notice] %>
+    </div>
+    <% end %>
+
+
+    <h1>Books</h1>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Title</th>
+          <th>Body</th>
+          <th cosplan = "3"></th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <% @books.each do |book| %>
+        <tr>
+          <td><%= book.title %></td>
+          <td><%= book.body %></td>
+          <td><%= link_to "show",book_path(book.id) %></td>
+          <td><%= link_to "edit",edit_book_path(book.id) %></td>
+          <td><%= link_to "destroy",destroy_book_path(book.id),method: :delete,"data-confirm" => "Are you sure?" %></td>
+        </tr>
+        <% end %>
+      </tbody>
+    </table>
+
+
+
+<h2>New book</h2>
+<% if @book.errors.any? %>
+<%= @book.errors.count %> 件のエラーが発生しました
+<ul>
+  <% @book.errors.full_messages.each do |message| %>
+  <li><%=  message %></li>
+  <% end %>
+</ul>
+<% end %>
+
+
+
+<%= form_with model: @book, url: '/books', method: :post, local: true do |f| %>
+<p>Title</p>
+<%= f.text_field:title %>
+
+<p>Body</p>
+<%= f.text_area:body %>
+
+<%= f.submit 'Create Book' %>
+<% end %>
+ </body>
+</html>
